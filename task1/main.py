@@ -1,17 +1,21 @@
 from typing import Callable
 
 def caching_fibonacci() -> Callable[[int], int]:
+    # Створюємо порожній словник cache.
     cache = {}
 
     def fibonacci(n: int) -> int:
+        # Базові випадки ряду Фібоначчі
         if n <= 0:
             return 0
         if n == 1:
             return 1
         
+        # Перевірка, чи є значення вже у кеші
         if n in cache:
             return cache[n]  
 
+        # Якщо значення немає у кеші, обчислюємо його рекурсивно
         cache[n] = fibonacci(n - 1) + fibonacci(n - 2)
         return cache[n]
 
