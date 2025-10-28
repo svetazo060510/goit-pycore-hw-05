@@ -1,38 +1,36 @@
 from typing import Callable
 
 def caching_fibonacci() -> Callable[[int], int]:
-    # Створюємо порожній словник cache.
+    # Create empty dict cache.
     cache = {}
 
     def fibonacci(n: int) -> int:
-        # Базові випадки ряду Фібоначчі
+        # Basic cases of the Fibonacci series
         if n <= 0:
             return 0
         if n == 1:
             return 1
         
-        # Перевірка, чи є значення вже у кеші
+        # Checking if a value is already in the cache
         if n in cache:
             return cache[n]  
 
-        # Якщо значення немає у кеші, обчислюємо його рекурсивно
+        # If the value is not in the cache, we calculate it recursively
         cache[n] = fibonacci(n - 1) + fibonacci(n - 2)
         return cache[n]
 
     return fibonacci
 
-# -- Приклад використання --
-# Отримуємо функцію fibonacci, яка "пам'ятає" свій кеш
+# -- Usage example --
 fib = caching_fibonacci()
 
-# Використовуємо функцію fibonacci для обчислення чисел
-# При першому виклику fib(10), вона обчислить і закешує
+# The first time fib(10) is called, it will calculate and cache
 # fib(1) ... fib(10).
-print(f"fib(10) = {fib(10)}")  # Виведе 55
+print(f"fib(10) = {fib(10)}")  # 55
 
-# При виклику fib(15), вона використає вже збережені
-# значення від 1 до 10 і обчислить лише fib(11) ... fib(15).
-print(f"fib(15) = {fib(15)}")  # Виведе 610
+# Calling fib(15), it will use the already stored values ​​from 1 to 10 and only calculate 
+# fib(11) ... fib(15).
+print(f"fib(15) = {fib(15)}")  # 610
 
-# Цей виклик буде миттєвим, оскільки fib(10) вже є в кеші
-print(f"fib(10) = {fib(10)}")  # Виведе 55
+# fib(10) is already in the cache
+print(f"fib(10) = {fib(10)}")  # 55
