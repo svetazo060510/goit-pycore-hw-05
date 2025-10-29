@@ -4,7 +4,7 @@ from pathlib import Path
 
 def parse_log_line(line: str) -> dict:
     try:
-        # Розбиваємо рядок на 4 частини: дата, час, рівень, повідомлення
+        # Split the string into 4 parts: date, time, level, message
         date, time, level, message = line.split(' ', 3)
         return {
             "date": date,
@@ -13,7 +13,7 @@ def parse_log_line(line: str) -> dict:
             "message": message.strip()
         }
     except ValueError:
-        # Обробка випадків, коли рядок не відповідає формату
+        # For cases where the string does not match the format
         print(f"Помилка: Некоректний формат логу: '{line.strip()}'")
         return None
 
@@ -44,34 +44,34 @@ def filter_logs_by_level(logs: list, level: str) -> list:
 def display_log_counts(counts: dict):
     print("\nРівень логування | Кількість")
     print("-----------------|----------")
-    # {<17} - вирівнювання по лівому краю, 17 символів
+    # {<17} - left alignment, 17 characters
     for level, count in counts.items():
         print(f"{level:<17}| {count}")
 
 def main():
-    # Перевірка наявності хоча б одного аргументу (шляху до файлу)
+    # Check for at least one argument (file path)
     if len(sys.argv) < 2:
         print("Використання: python3 main.py /шлях/до/log_file.log [рівень_логування]")
         sys.exit(1)
     file_path = sys.argv[1]
     
-    # Перевірка наявності необов'язкового другого аргументу (рівня логування)
+    # Check for an optional second argument (logging level)
     log_level_to_filter = None
     if len(sys.argv) > 2:
         log_level_to_filter = sys.argv[2]
 
-    # Завантажуємо та аналізуємо логи
+    # Load logs here
     logs = load_logs(file_path)
     
     if not logs:
         print("Лог-файл порожній або не містить коректних записів.")
         return
 
-    # Підраховуємо та відображаємо статистику
+    # Calculate and display statistics
     counts = count_logs_by_level(logs)
     display_log_counts(counts)
 
-    # Якщо був вказаний рівень для фільтрації
+    # Calculate and display statistics + for logging level
     if log_level_to_filter:
         filtered_logs = filter_logs_by_level(logs, log_level_to_filter)
         
